@@ -16,7 +16,7 @@
 							<div class="col-sm-7 col-auto">
 								<h3 class="page-title">Specialities</h3>
 								<ul class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+									<li class="breadcrumb-item"><a href="{{route('adminDashboard')}}">Dashboard</a></li>
 									<li class="breadcrumb-item active">Specialities</li>
 								</ul>
 							</div>
@@ -46,24 +46,80 @@
 													
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2">
+															<a href="" class="avatar avatar-sm mr-2">
 																<img class="avatar-img" src="{{$url.$specialty['image']}}" alt="Speciality">
 															</a>
-															<a href="profile.html">{{$specialty['specialtyName']}}</a>
+															<a href="">{{$specialty['specialtyName']}}</a>
 														</h2>
 													</td>
 												
 													<td class="text-right">
 														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
+															<a class="btn btn-sm bg-success-light" data-toggle="modal" data-target="#edit_specialities_details{{$specialty['id']}}">
 																<i class="fe fe-pencil"></i> Edit
 															</a>
-															<a  data-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+															<a  data-toggle="modal" href="#delete_modal{{$specialty['id']}}" class="btn btn-sm bg-danger-light">
 																<i class="fe fe-trash"></i> Delete
 															</a>
 														</div>
 													</td>
 												</tr>
+												<!-- Edit Details Modal -->
+												<div class="modal fade" id="edit_specialities_details$originalName" aria-hidden="true" role="dialog">
+													<div class="modal-dialog modal-dialog-centered" role="document" >
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title">Edit Specialities</h5>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<form  id="editForm" method="POST" action="{{route('speciality.update',$specialty['id'])}}" enctype="multipart/form-data">
+																	@method('PUT')
+																	@csrf
+																	<div class="row form-row">
+																		<div class="col-12 col-sm-6">
+																			<div class="form-group">
+																				<label>Specialities</label>
+																				<input value="{{$specialty['specialtyName']}}" name="speciality" type="text" class="form-control">
+																			</div>
+																		</div>
+																		<div class="col-12 col-sm-6">
+																			<div class="form-group">
+																				<label>Image</label>
+																				<input name="image" type="file"  class="form-control">
+																			</div>
+																		</div>
+																	</div>
+																	<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- /Edit Details Modal -->
+												
+												<!-- Delete Modal -->
+												<div class="modal fade" id="delete_modal{{$specialty['id']}}" aria-hidden="true" role="dialog">
+													<div class="modal-dialog modal-dialog-centered" role="document" >
+														<div class="modal-content">
+															<div class="modal-body">
+																<form method="POST" action="{{route('speciality.destroy',$specialty['id'])}}">
+																@method('delete')
+																	@csrf
+																	<div class="form-content p-2">
+																		<h4 class="modal-title">Delete</h4>
+																		<p class="mb-4">Are you sure want to delete?</p>
+																		<button type="submit" class="btn btn-primary">Save </button>
+																		<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+																	</div>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- /Delete Modal -->
 												@endforeach
 											</tbody>
 										</table>
@@ -113,61 +169,5 @@
 			</div>
 			<!-- /ADD Modal -->
 			
-			<!-- Edit Details Modal -->
-			<div class="modal fade" id="edit_specialities_details" aria-hidden="true" role="dialog">
-				<div class="modal-dialog modal-dialog-centered" role="document" >
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Edit Specialities</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form>
-								<div class="row form-row">
-									<div class="col-12 col-sm-6">
-										<div class="form-group">
-											<label>Specialities</label>
-											<input type="text" class="form-control" value="Cardiology">
-										</div>
-									</div>
-									<div class="col-12 col-sm-6">
-										<div class="form-group">
-											<label>Image</label>
-											<input type="file"  class="form-control">
-										</div>
-									</div>
-									
-								</div>
-								<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /Edit Details Modal -->
 			
-			<!-- Delete Modal -->
-			<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
-				<div class="modal-dialog modal-dialog-centered" role="document" >
-					<div class="modal-content">
-					<!--	<div class="modal-header">
-							<h5 class="modal-title">Delete</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>-->
-						<div class="modal-body">
-							<div class="form-content p-2">
-								<h4 class="modal-title">Delete</h4>
-								<p class="mb-4">Are you sure want to delete?</p>
-								<button type="button" class="btn btn-primary">Save </button>
-								<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /Delete Modal -->
 			@endsection

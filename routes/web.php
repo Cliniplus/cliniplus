@@ -51,6 +51,7 @@ Route::middleware(['doctor'])->prefix('doctor')->group(function () {
      Route::get('/appiontments',[DoctorController::class, 'getAppointments'])->name('getAppointments');
      Route::get('/my-patients',[DoctorController::class, 'getMyPatient'])->name('getMyPatient');
      Route::get('/chat',[DoctorController::class, 'getDoctorChat'])->name('getDoctorChat');
+     Route::get('/doctorChat',[DoctorController::class, 'doctorChat'])->name('doctorChat');
      Route::post('/chat',[DoctorController::class, 'postDoctorChat'])->name('postDoctorChat');
      Route::get('/doctorProfile',[DoctorController::class, 'getCompleteDoctorProfile'])->name('getCompleteDoctorProfile');
      Route::post('/doctorProfile',[DoctorController::class, 'postCompleteDoctorProfile'])->name('postCompleteDoctorProfile');
@@ -76,11 +77,13 @@ Route::get('/',[HomeController::class, 'index'])->name('home');
 Route::get('/search',[HomeController::class, 'getSearch'])->name('getSearch');
 Route::post('/search',[HomeController::class, 'postSearch'])->name('postSearch');
 Route::get('/blogs',[HomeController::class, 'blogs'])->name('blogs');
+Route::get('/blog-detail/{id}',[HomeController::class, 'blogDetails'])->name('blogDetails');
 Route::get('/about',[HomeController::class, 'about'])->name('about');
 
 
 Route::get('/doctor/{id}/profile',[DoctorController::class, 'doctorProfile'])->name('doctorProfile');
 Route::get('/patient/{id}/profile',[PatientController::class, 'patientProfile'])->name('patientProfile');
+Route::get('/book-appointment',[PatientController::class, 'bookAppointment'])->name('bookAppointment');
 
 
 

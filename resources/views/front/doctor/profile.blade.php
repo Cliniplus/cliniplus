@@ -54,7 +54,7 @@
 							<div>
 								<div class="button-display">
 									<i class="far fa-comment-alt private-button"></i>
-									<a class="button-design" href="booking.html">Book Appointment</a>
+									<a class="button-design" href="{{route('bookAppointment')}}">Book Appointment</a>
 								</div>						
 							</div>
 						</div>
@@ -199,7 +199,7 @@
 									@foreach ($reviews as $review)
 									<!-- Comment List -->
 									@php
-									$date = Carbon::createFromFormat('Y m d', $review['creatdDate'])->format('Y-m-d');	
+									$date = Carbon::createFromFormat('Y m d', $review['created'])->format('Y-m-d');	
 									$date = Carbon::parse($date)->diffForHumans()
 									@endphp
 									<li>

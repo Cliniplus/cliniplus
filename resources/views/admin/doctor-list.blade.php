@@ -45,7 +45,6 @@
 												</h2>
 											</td>
 											<td>{{$doctor['specialty']}}</td>
-											
 										</tr>
 										@endforeach
 									</tbody>

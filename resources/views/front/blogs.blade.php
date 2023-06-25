@@ -24,7 +24,7 @@
     <div class="col-lg-4 col-md-12">
       <div class="complete-card">
         <div class="item-img">
-          <a href="/blogs-details.html">
+          <a href="{{route('blogDetails',$blog['id'])}}">
             <img width="365px" height="194px" class="rounded-image1" src="{{$url.$blog['blogImage']}}" class="blog-image">
           </a>
         </div>
@@ -48,7 +48,7 @@
               {{substr($blog['content'],0,100)}}..
             </p>
           </div>
-          <button class="cart-btn">Read more</button>
+          <a href="{{route('blogDetails',$blog['id'])}}" class="cart-btn">Read more</a>
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
 @extends('front.layouts.doctor-dashboard')
 @section('title','Blogs')
 @section('content')
-<div class="col-lg-8 col-md-12">
+<div class="col-lg-8 col-md-12">     
+     <span>@if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif</span>
     <div class="create-blog">
         <div class="creat-blogs">
             <h2>My Blogs</h2>
@@ -29,230 +30,47 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if(!is_null($blogs))
+                            @foreach ($blogs as $blog)
                             <tr>
+                                <?php
+                                $date = date('Y-m-d', strtotime($blog['createdDate']));
+                                ?>
                                 <td>
                                     <p class="fw-bold">1</p>
                                 </td>
                                 <td>
-                                    <div class="taple-all">
-                                        <img src="{{asset('front/img/about/creat-blog.png')}}">
-                                        <p class="taple-para">
-                                            10 Top Questions on Pulmonary Rehab..</p>
-                                    </div>
+                                    <a href="{{route('blogDetails',$blog['id'])}}">
+                                        <div class="taple-all">
+                                            <img height="20px" src="{{$url.$blog['blogImage']}}">
+                                            <p class="taple-para">
+                                                @if(strlen($blog['title']) > 20)
+                                                {{substr($blog['title'],0,20)}}..
+                                                @else
+                                                {{$blog['title']}}
+                                                @endif    
+                                            </p>
+                                        </div>
+                                    </a>
                                 </td>
-                                <td>3. Jan .2023</td>
+                                <td>{{$date}}</td>
                                 <td>16 Comment</td>
                                 <td>17 Saved</td>
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                        <i class="far fa-eye"></i> View
+                                    <a title="edit" href="{{route('blog.edit',$blog['id'])}}" class="btn btn-sm bg-info-light">
+                                        <i class="fa fa-pencil"></i> 
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-success-light">
-                                        <i class="fas fa-check"></i> Accept
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
+                                    <a title="delete" href="{{-- {{route('blog.destroy',$blog['id'])}} --}}"
                                         class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-times"></i> Cancel
+                                        <i class="fas fa-times"></i> 
                                     </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <p class="fw-bold">2</p>
-                                </td>
-                                <td>
-                                    <div class="taple-all">
-                                        <img src="./assets/img/about/creat-blog.png">
-                                        <p class="taple-para">
-                                            10 Top Questions on Pulmonary Rehab..</p>
-                                    </div>
-                                </td>
-                                <td>3. Jan .2023</td>
-                                <td>16 Comment</td>
-                                <td>17 Saved</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                        <i class="far fa-eye"></i> View
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-success-light">
-                                        <i class="fas fa-check"></i> Accept
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="fw-bold">3</p>
-                                </td>
-                                <td>
-                                    <div class="taple-all">
-                                        <img src="./assets/img/about/creat-blog.png">
-                                        <p class="taple-para">
-                                            10 Top Questions on Pulmonary Rehab..</p>
-                                    </div>
-                                </td>
-                                <td>3. Jan .2023</td>
-                                <td>16 Comment</td>
-                                <td>17 Saved</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                        <i class="far fa-eye"></i> View
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-success-light">
-                                        <i class="fas fa-check"></i> Accept
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="fw-bold">4</p>
-                                </td>
-                                <td>
-                                    <div class="taple-all">
-                                        <img src="./assets/img/about/creat-blog.png">
-                                        <p class="taple-para">
-                                            10 Top Questions on Pulmonary Rehab..</p>
-                                    </div>
-                                </td>
-                                <td>3. Jan .2023</td>
-                                <td>16 Comment</td>
-                                <td>17 Saved</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                        <i class="far fa-eye"></i> View
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-success-light">
-                                        <i class="fas fa-check"></i> Accept
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="fw-bold">5</p>
-                                </td>
-                                <td>
-                                    <div class="taple-all">
-                                        <img src="./assets/img/about/creat-blog.png">
-                                        <p class="taple-para">
-                                            10 Top Questions on Pulmonary Rehab..</p>
-                                    </div>
-                                </td>
-                                <td>3. Jan .2023</td>
-                                <td>16 Comment</td>
-                                <td>17 Saved</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                        <i class="far fa-eye"></i> View
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-success-light">
-                                        <i class="fas fa-check"></i> Accept
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="fw-bold">6</p>
-                                </td>
-                                <td>
-                                    <div class="taple-all">
-                                        <img src="./assets/img/about/creat-blog.png">
-                                        <p class="taple-para">
-                                            10 Top Questions on Pulmonary Rehab..</p>
-                                    </div>
-                                </td>
-                                <td>3. Jan .2023</td>
-                                <td>16 Comment</td>
-                                <td>17 Saved</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                        <i class="far fa-eye"></i> View
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-success-light">
-                                        <i class="fas fa-check"></i> Accept
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="fw-bold">7</p>
-                                </td>
-                                <td>
-                                    <div class="taple-all">
-                                        <img src="./assets/img/about/creat-blog.png">
-                                        <p class="taple-para">
-                                            10 Top Questions on Pulmonary Rehab..</p>
-                                    </div>
-                                </td>
-                                <td>3. Jan .2023</td>
-                                <td>16 Comment</td>
-                                <td>17 Saved</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
-                                        <i class="far fa-eye"></i> View
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-success-light">
-                                        <i class="fas fa-check"></i> Accept
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </a>
-                                </td>
-                            </tr>
+                            @endforeach
+                            @endif
+                            
                         </tbody>
                     </table>
                 </div>

@@ -26,12 +26,12 @@
 							<div class="row align-items-center">
 								<div class="col-auto profile-image">
 									<a href="#">
-										<img class="rounded-circle" alt="User Image" src="assets/img/profiles/avatar-01.jpg">
+										<img class="rounded-circle" alt="User Image" src="{{Session()->get('user')['image']}}">
 									</a>
 								</div>
 								<div class="col ml-md-n2 profile-user-info">
-									<h4 class="user-name mb-0">Ryan Taylor</h4>
-									<h6 class="text-muted">ryantaylor@admin.com</h6>
+									<h4 class="user-name mb-0">{{Session()->get('user')['fullName']}}</h4>
+									<h6 class="text-muted">{{Session()->get('user')['email']}}</h6>
 									<div class="user-Location"><i class="fa fa-map-marker"></i> Florida, United States</div>
 									<div class="about-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
 								</div>

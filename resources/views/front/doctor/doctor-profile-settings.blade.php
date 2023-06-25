@@ -2,7 +2,8 @@
 @section('title','Profile Settings')  
 @section('content')
 <div class="col-md-7 col-width-lg col-xl-9">
-
+    <span>@if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif</span>
+    <span>@if(session('error'))<div class="alert alert-danger">{{ session('error') }}</div>@endif</span>
     <form method="POST" action="{{route('postCompleteDoctorProfile')}}" enctype="multipart/form-data">		
         @csrf	
         <!-- Basic Information -->

@@ -61,6 +61,13 @@ class HomeController extends Controller
       $blogs= getRequest($this->url.'/api/blog/getallblogs');
       return view('front.blogs',['url'=>$this->img_url,'blogs'=>$blogs]);
     } 
+    public function blogDetails($id){
+      $blogs= getRequest($this->url.'/api/blog/getallblogs');
+      $filteredBlog = array_filter($blogs, function ($blog) use ($id) {
+        return $blog['id'] == $id;
+    }); 
+      return view('front.blogs-details',['url'=>$this->img_url,'blog'=>$filteredBlog]);
+    }
     public function about(){
       return view('front.about');
     }

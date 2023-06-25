@@ -13,7 +13,7 @@
             <!-- Comment List -->
             @foreach ($reviews as $review)   
             @php
-                $date = Carbon::createFromFormat('Y m d', $review['creatdDate'])->format('Y-m-d');	
+                $date = Carbon::createFromFormat('Y m d', $review['created'])->format('Y-m-d');	
                 $date = Carbon::parse($date)->diffForHumans()
             @endphp
             <li>

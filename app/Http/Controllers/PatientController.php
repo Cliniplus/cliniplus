@@ -50,7 +50,7 @@ class PatientController extends Controller
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ];
-        $apiURL = $this->url.'/api/review/GetAllReviewsForDoctor?doctorId='.$id;
+        $apiURL = $this->url.'/api/review/AddReviewsForDoctor?doctorId='.$id;
         $postInput = [
             'Comment' =>  $input['review'],
         ];       
@@ -71,6 +71,8 @@ class PatientController extends Controller
         } else {
             return abort(500);
         } 
-        dd($input);
     } 
+    public function bookAppointment(){
+        return view('front.appointment');
+    }
 }

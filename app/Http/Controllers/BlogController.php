@@ -22,7 +22,10 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = getRequest($this->url.'/api/blog/getallblogs');
-        return view('front.blog.index',['url'=>$this->img_url,'blogs'=>$blogs]);
+        $filteredBlogs = array_filter($blogs, function ($blog) {
+            return $blog['name'] === Session()->get('user')['fullName'];
+        });      
+         return view('front.blog.index',['url'=>$this->img_url,'blogs'=>$filteredBlogs]);
     }
 
     /**
@@ -30,7 +33,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('front.blog.create',['url'=>$this->img_url]);
+        return view('front.blog.create');
     }
 
     /**
@@ -44,53 +47,76 @@ class BlogController extends Controller
         }
         $input = $request->input();
         $validator = Validator::make($input, [
-            'speciality' => 'required|string',
+            'title' => 'required|string',
+            'content' => 'required|string',
         ]);
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
-        $apiURL = $this->url.'/api/specialties/CreateSpecialty';
-        $postInput = [
-            'SpecialtyName  ' => $input['speciality'],  
-            'ImageFile' => base64_encode(file_get_contents($image->getPathname())), 
-            'Image' => $originalName,  
-        ];    
+        
+        $token = session()->get('api_token');
+        $headers = [
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ];
+        $apiURL = $this->url . '/api/blog/createblog';
         $client = new \GuzzleHttp\Client();
-        try{
-            $response = $client->request('POST', $apiURL, ['form_params' => $postInput]);
-        }catch(Exception $e){
-            return abort(500);
+        
+        try {
+            $response = $client->request('POST', $apiURL, [
+                'multipart' => [
+                    [
+                        'name' => 'Title',
+                        'contents' => $input['title']
+                    ],
+                    [
+                        'name' => 'Content',
+                        'contents' => $input['content']
+                    ],
+                    [ 
+                        'name' => 'ImageFile',
+                        'contents' => fopen($image->getPathname(), 'r')  // Open the image file
+                    ],  
+                    [
+                        'name' => 'Image',
+                        'contents' => $originalName
+                    ],   
+
+                ],
+                'headers' => $headers,
+            ],              
+        );
+        } catch (ServerException $e) {
+            $response = $e->getResponse();
+            $statusCode = $response->getStatusCode();
+            $responseBody = $response->getBody()->getContents();
         }
+        
         $statusCode = $response->getStatusCode();
         $responseBody = json_decode($response->getBody(), true);
+        
         if ($statusCode == 200) {
-            if($responseBody['isSuccess']){
-                return redirect()->route('speciality.index')->with('success', 'Speciality Change successful!');
-            }else{
-                return redirect()->back()->with(['error'=>$responseBody['message']])->withInput();
-            }   
+            if ($responseBody['isSuccess']) {
+                return redirect()->route('blog.index')->with('success', 'Blog Create successful!');
+            } else {
+                return redirect()->back()->with(['error' => $responseBody['message']])->withInput();
+            }
         } else {
             return abort(500);
-        } 
+        }
 
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        $blog = getRequest($this->url.'/api/blog/getblogbyid?blogId='.$id);
+        return view('front.blog.edit',['blog'=>$blog]);
     }
 
     /**
